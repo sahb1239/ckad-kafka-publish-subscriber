@@ -9,6 +9,5 @@ namespace Consumer
     public class ConsumerSettings
     {
         public string Topic { get; set; }
-        public string Value { get; set; }
     }
 }

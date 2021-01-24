@@ -1,0 +1,27 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: ckad-kafka-producer-cronjob
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: ckad-kafka-producer
+        spec:
+          containers:
+          - name: ckad-kafka-producer
+            image: sahb/ckad-kafka-producer:latest
+            imagePullPolicy: Always
+            env:
+            - name: "Kafka__ProducerSettings__BootstrapServers"
+              value: "kafka-service:9092"
+            - name: "Kafka__ProducerSettings__SaslMechanism"
+              value: "plain"
+            - name: "Producer__Topic"
+              value: "Test"
+            - name: "Producer__Value"
+              value: "1"
+          restartPolicy: OnFailure

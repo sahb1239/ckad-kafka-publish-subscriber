@@ -65,6 +65,8 @@ namespace Shared
                 try
                 {
                     var consumeResult = this._kafkaConsumer.Consume(token);
+                    _logger.LogInformation($"Retrieved value {consumeResult.Message.Value} on topic {consumeResult.Topic}");
+
                     _subscriptionHandler.HandleConsumeResult(consumeResult);
                 }
                 catch (OperationCanceledException)
