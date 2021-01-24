@@ -11,12 +11,14 @@ namespace Producer
     {
         private readonly ILogger<Worker> _logger;
         private readonly IProducer<long, string> _producer;
+        private readonly IHostApplicationLifetime hostApplicationLifetime;
         private readonly ProducerSettings _producerSettings;
 
-        public Worker(ILogger<Worker> logger, IProducer<long, string> producer, IOptions<ProducerSettings> producerSettings)
+        public Worker(ILogger<Worker> logger, IProducer<long, string> producer, IOptions<ProducerSettings> producerSettings, IHostApplicationLifetime hostApplicationLifetime)
         {
             _logger = logger;
             _producer = producer;
+            this.hostApplicationLifetime = hostApplicationLifetime;
             _producerSettings = producerSettings.Value;
         }
 
@@ -28,6 +30,8 @@ namespace Producer
             _logger.LogInformation("Producing value {1} on topic {0}", topic, value);
 
             await _producer.ProduceAsync(topic, value);
+
+            hostApplicationLifetime.StopApplication();
         }
     }
 }
