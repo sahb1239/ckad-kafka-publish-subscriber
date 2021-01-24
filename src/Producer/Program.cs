@@ -24,7 +24,7 @@ namespace Producer
 
                     services.AddKafkaProducer<long, string>("Kafka:ProducerSettings");
 
-                    services.Configure<ProducerSettings>(hostContext.Configuration.GetSection("Kafka"));
+                    services.Configure<ProducerSettings>(hostContext.Configuration.GetSection("Producer"));
                 });
     }
 }

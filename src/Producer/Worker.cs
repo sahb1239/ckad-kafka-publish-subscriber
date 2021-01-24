@@ -27,7 +27,7 @@ namespace Producer
             var topic = _producerSettings.Topic;
             var value = _producerSettings.Value;
 
-            _logger.LogInformation("Producing value {1} on topic {0}", topic, value);
+            _logger.LogInformation("Producing value {0} on topic {1}", value, topic);
 
             await _producer.ProduceAsync(topic, value);
 
