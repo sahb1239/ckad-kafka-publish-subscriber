@@ -27,9 +27,14 @@ namespace Producer
             var topic = _producerSettings.Topic;
             var value = _producerSettings.Value;
 
-            _logger.LogInformation("Producing value {0} on topic {1}", value, topic);
+            for (int i = 0; i < 10; i++)
+            {
+                _logger.LogInformation("Producing value {0} on topic {1}", value, topic);
 
-            await _producer.ProduceAsync(topic, value);
+                await _producer.ProduceAsync(topic, value);
+
+                await Task.Delay(1000);
+            }
 
             hostApplicationLifetime.StopApplication();
         }
