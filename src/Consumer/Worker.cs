@@ -16,6 +16,7 @@ namespace Consumer
         private readonly IConsumer<long, string> _consumer;
         private readonly IProducer<long, string> _producer;
         private readonly ConsumerSettings _consumerSettings;
+        private readonly Random _random = new Random();
 
         public Worker(ILogger<Worker> logger, IConsumer<long, string> consumer, IProducer<long, string> producer, IOptions<ConsumerSettings> options)
         {
@@ -41,9 +42,16 @@ namespace Consumer
 
                 var produceTopic = _consumerSettings.ProduceTopic;
 
-                _logger.LogInformation("Producing value {0} on topic {1}", message.value, produceTopic);
-
-                await _producer.ProduceAsync(produceTopic, message.value);
+                var randomNumber = _random.Next(2);
+                if (randomNumber == 0)
+                {
+                    _logger.LogInformation("Producing value {0} on topic {1}", message.value, produceTopic);
+                    await _producer.ProduceAsync(produceTopic, message.value);
+                }
+                else
+                {
+                    _logger.LogInformation("Skipped producing value");
+                }
             }
 
             _consumer.Unsubscribe(subscription);
