@@ -33,7 +33,7 @@ namespace Producer
 
                 await _producer.ProduceAsync(topic, value);
 
-                await Task.Delay(1000);
+                await Task.Delay(10);
             }
 
             hostApplicationLifetime.StopApplication();
