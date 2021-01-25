@@ -27,7 +27,7 @@ namespace Producer
             var topic = _producerSettings.Topic;
             var value = _producerSettings.Value;
 
-            for (int i = 0; i < 59; i++)
+            for (int i = 0; i < 4000; i++)
             {
                 _logger.LogInformation("Producing value {0} on topic {1}", value, topic);
 
