@@ -23,6 +23,7 @@ namespace Consumer
                     services.AddHostedService<Worker>();
 
                     services.AddKafkaConsumer<long, string>("Kafka:ConsumerSettings");
+                    services.AddKafkaProducer<long, string>("Kafka:ProducerSettings");
 
                     services.Configure<ConsumerSettings>(hostContext.Configuration.GetSection("Consumer"));
                 });

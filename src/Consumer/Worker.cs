@@ -14,12 +14,14 @@ namespace Consumer
     {
         private readonly ILogger<Worker> _logger;
         private readonly IConsumer<long, string> _consumer;
+        private readonly IProducer<long, string> _producer;
         private readonly ConsumerSettings _consumerSettings;
 
-        public Worker(ILogger<Worker> logger, IConsumer<long, string> consumer, IOptions<ConsumerSettings> options)
+        public Worker(ILogger<Worker> logger, IConsumer<long, string> consumer, IProducer<long, string> producer, IOptions<ConsumerSettings> options)
         {
             this._logger = logger;
             this._consumer = consumer;
+            _producer = producer;
             this._consumerSettings = options.Value;
         }
 
@@ -36,6 +38,12 @@ namespace Consumer
 
                 var message = await subscription.ConsumeAsync();
                 _logger.LogInformation("Retrieved message: {0}", message.value);
+
+                var produceTopic = _consumerSettings.ProduceTopic;
+
+                _logger.LogInformation("Producing value {0} on topic {1}", message.value, produceTopic);
+
+                await _producer.ProduceAsync(produceTopic, message.value);
             }
 
             _consumer.Unsubscribe(subscription);
