@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ckad-kafka-consumer2-deployment
+  labels:
+    app: ckad-kafka-consumer2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ckad-kafka-consumer2
+  template:
+    metadata:
+      labels:
+        app: ckad-kafka-consumer2
+    spec:
+      containers:
+      - name: ckad-kafka-consumer2
+        image: sahb/ckad-kafka-consumer:latest
+        imagePullPolicy: Always
+        env:
+        - name: "Kafka__ConsumerSettings__BootstrapServers"
+          value: "kafka-service:9092"
+        - name: "Kafka__ConsumerSettings__GroupId"
+          value: "ckad-kafka-consumer2"
+        - name: "Kafka__ConsumerSettings__SaslMechanism"
+          value: "plain"
+        - name: "Kafka__ProducerSettings__BootstrapServers"
+          value: "kafka-service:9092"
+        - name: "Kafka__ProducerSettings__SaslMechanism"
+          value: "plain"
+        - name: "Consumer__Topic"
+          value: "TestOutput"
+        - name: "Consumer__ProduceTopic"
+          value: "Test"

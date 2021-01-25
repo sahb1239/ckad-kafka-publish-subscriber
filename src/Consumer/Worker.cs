@@ -42,8 +42,8 @@ namespace Consumer
 
                 var produceTopic = _consumerSettings.ProduceTopic;
 
-                var randomNumber = _random.Next(2);
-                if (randomNumber == 0)
+                var randomNumber = _random.Next(5);
+                if (randomNumber < 3)
                 {
                     _logger.LogInformation("Producing value {0} on topic {1}", message.value, produceTopic);
                     await _producer.ProduceAsync(produceTopic, message.value);
